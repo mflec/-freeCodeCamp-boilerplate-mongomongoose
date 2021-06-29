@@ -46,18 +46,37 @@ Person.find({name: personName}, function (err, people) { //PROMISE
   })
 };
 
+//Model.findOne()se comporta como Model.find(), pero 
+//devuelve solo un documento (no una matriz), incluso 
+//si hay varios elementos
+
+
 const findOneByFood = (food, done) => {
-  done(null /*, data*/);
+  Person.findOne({favoriteFoods: food}, function (err, people) { //PROMISE
+    if (err) return console.log(err);
+    done(null, people);
+  })
 };
 
+// findPersonById no es de js, si no de mongoose
+
 const findPersonById = (personId, done) => {
-  done(null /*, data*/);
+  Person.findById(personId, function (err, people) { //PROMISE
+    if (err) return console.log(err);
+    done(null, people);
+  })
 };
 
 const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";
-
-  done(null /*, data*/);
+  Person.findById(personId, function (err, people) { //PROMISE
+  if (err) return console.log(err);
+   people.favoriteFoods= [...people.favoriteFoods, foodToAdd]
+   people.save((err, updatedPerson) => {
+      if(err) return console.log(err);
+      done(null, updatedPerson)
+    })
+})
 };
 
 const findAndUpdate = (personName, done) => {
