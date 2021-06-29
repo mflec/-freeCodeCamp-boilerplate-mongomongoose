@@ -22,12 +22,28 @@ mili.save(function(err, data) {
   });
 };
 
-const createManyPeople = (arrayOfPeople, done) => {
-  done(null /*, data*/);
+
+const arrayOfPeople= [ {name: "Juan", age: 22, favoriteFoods: ["Anything except meat"]},
+  {name: "Jere", age: 19, favoriteFoods: ["Anything"]},
+  {name: "Javier", age: 44, favoriteFoods: ["beer"]}
+]
+
+const createManyPeople= function(arrayOfPeople, done) {
+  Person.create(arrayOfPeople, function (err, people) { //PROMISE
+    if (err) return console.log(err);
+    done(null, people);
+  });
 };
 
+// The Object.create() method creates a new object, using
+// an existing object as the prototype of the newly created object.
+
+
 const findPeopleByName = (personName, done) => {
-  done(null /*, data*/);
+Person.find({name: personName}, function (err, people) { //PROMISE
+    if (err) return console.log(err);
+    done(null, people);
+  })
 };
 
 const findOneByFood = (food, done) => {
